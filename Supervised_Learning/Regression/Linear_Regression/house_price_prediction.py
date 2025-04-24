@@ -3,7 +3,7 @@ from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 
-# Cargar los datos
+# Load the data
 df = pd.read_csv("./Datasets/house_prices.csv").dropna()
 
 # ---------------------------------
@@ -12,28 +12,28 @@ df = pd.read_csv("./Datasets/house_prices.csv").dropna()
 
 fig, axs = plt.subplots(2, 2, figsize=(7, 6))
 
-# Gráfico 1: Square footage
+# Plot 1: Square footage
 axs[0, 0].scatter(df["Square_Footage"], df["House_Price"], s=3, alpha=.5, color='teal')
 axs[0, 0].set_title("Square Feet vs Price")
 axs[0, 0].set_xlabel("Square Feet")
 axs[0, 0].set_ylabel("Price (USD)")
 
-# Gráfico 2: Year built
+# Plot 2: Year built
 axs[0, 1].scatter(df["Year_Built"], df["House_Price"], s=3, alpha=.5, color='darkorange')
 axs[0, 1].set_title("Year Built vs Price")
 axs[0, 1].set_xlabel("Year Built")
 axs[0, 1].set_ylabel("Price (USD)")
 
-# Gráfico 3: Lot size
+# Plot 3: Lot size
 axs[1, 0].scatter(df["Lot_Size"], df["House_Price"], s=3, alpha=.5, color='indigo')
 axs[1, 0].set_title("Lot Size vs Price")
 axs[1, 0].set_xlabel("Lot Size (in acres)")
 axs[1, 0].set_ylabel("Price (USD)")
 
-# Gráfico 4: Bedrooms
+# Plot 4: Bedrooms
 axs[1, 1].axis("off")
 
-# Ajustar espacio
+# Adjust spacing
 plt.tight_layout()
 plt.show()
 

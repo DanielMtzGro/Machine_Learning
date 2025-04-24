@@ -1,4 +1,3 @@
-import numpy as np
 import hdbscan
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -24,7 +23,7 @@ ax.scatter(
     X["culmen_depth_mm"],
     c=labels,
     cmap="viridis",
-    s=5
+    s=10
 )
 
 # Plot configuration

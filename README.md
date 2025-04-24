@@ -1,6 +1,6 @@
 # 🧠 Machine Learning Portfolio
 
-Welcome! 👋 This is my personal Machine Learning portfolio, where I showcase a variety of projects covering the three core areas of machine learning:
+Welcome! This is my personal Machine Learning portfolio, where I showcase a variety of projects covering the three core areas of machine learning:
 
 - 🔵 **Supervised Learning**
 - 🟢 **Unsupervised Learning**
@@ -12,4 +12,4 @@ Each project is built with real datasets and demonstrates both the technical imp
 
 🚀 New projects are added regularly as I continue learning and experimenting.
 
-> Check out individual folders for detailed READMEs and project-specific documentation.
+Check out individual folders for detailed READMEs and project-specific documentation.

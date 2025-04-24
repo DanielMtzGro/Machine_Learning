@@ -19,8 +19,8 @@ ax = fig.add_subplot(111, projection='3d')
 
 ax.scatter(
     X["culmen_length_mm"],
-    X["flipper_length_mm"],
     X["culmen_depth_mm"],
+    X["flipper_length_mm"],
     c=labels,
     cmap="viridis",
     s=10
@@ -29,7 +29,7 @@ ax.scatter(
 # Plot configuration
 ax.set_title("Penguin clustering using HDBSCAN")
 ax.set_xlabel("Culmen length (mm)")
-ax.set_ylabel("Flipper length (mm)")
-ax.set_zlabel("Culmen depth (mm)")
+ax.set_ylabel("Culmen depth (mm)")
+ax.set_zlabel("Flipper length (mm)")
 plt.show()
 

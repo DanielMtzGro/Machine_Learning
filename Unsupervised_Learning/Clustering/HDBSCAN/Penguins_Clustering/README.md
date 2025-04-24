@@ -26,8 +26,11 @@ Missing values were removed before performing the clustering.
 
 The HDBSCAN algorithm successfully identified several clusters in the data, as well as a number of outliers (labeled as noise). The 3D visualization helps to interpret the structure of the data and the separation between the groups.
 
-- Clusters are visually distinct in the feature space.
-- The algorithm was robust to noise and did not force all points into clusters.
+Two main clusters were observed:
+- **Cluster 1**: Penguins with long flippers, average-length culmens, and shallow culmen depth.
+- **Cluster 2**: Penguins with short flippers and deep culmens.
+
+These clusters suggest meaningful biological differences in the morphology of the penguins that align with species or ecological adaptations.
 
 ## Conclusion
 
@@ -42,3 +45,14 @@ This project demonstrates how density-based clustering can be used to uncover na
 ## Requirements
 
 To run this project, install the following Python packages:
+
+- pandas
+- matplotlib
+- hdbscan
+- scikit-learn
+- plotly
+
+
+## License
+
+This project is open source and free to use under the MIT License.

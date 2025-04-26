@@ -1,7 +1,9 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, classification_report
 
 # Read CSV
 df = pd.read_csv("./Datasets/diabetes.csv")
@@ -57,3 +59,13 @@ model.fit(x_train_scaled, y_train)
 # Compare accuracies for overfitting
 print(f"Model train accuracy: {model.score(x_train_scaled, y_train)}")
 print(f"Model test accuracy: {model.score(x_test_scaled, y_test)}")
+
+# Confusion matrix
+y_pred = model.predict(x_test_scaled)
+
+conf_matrix = confusion_matrix(y_test, y_pred)
+
+disp = ConfusionMatrixDisplay(confusion_matrix=conf_matrix, display_labels=model.classes_)
+disp.plot(cmap=plt.cm.Blues, colorbar=False)
+plt.title("Confusion Matrix")
+plt.show()

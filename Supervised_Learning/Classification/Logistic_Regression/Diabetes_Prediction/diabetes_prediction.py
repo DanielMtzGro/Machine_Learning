@@ -14,6 +14,20 @@ df = pd.read_csv("./Datasets/diabetes.csv")
 X = df.drop(["Outcome"], axis=1)
 y = df["Outcome"]
 
+# Adding new features to X
+X["BMI_Age"] = X["Age"] * X["BMI"]
+X["Glucose_Insulin_Ratio"] = X["Glucose"] / (X["Insulin"] + 1e-6)
+X['Glucose_Age'] = X['Glucose'] * X['Age']
+X['Insulin_Age'] = X['Insulin'] * X['Age']
+X['Pregnancies_Age'] = X['Pregnancies'] * X['Age']
+X['Pregnancies_BMI'] = X['Pregnancies'] * X['BMI']
+X['BloodPressure_Glucose_Ratio'] = X['BloodPressure'] / (X["Glucose"] + 1e-6)
+X['BloodPressure_Insulin_Ratio'] = X['BloodPressure'] / (X["Insulin"] + 1e-6)
+X['Age_Pedigree'] = X['Age'] * X['DiabetesPedigreeFunction']
+X['BloodPressure_SkinThickness'] = X['BloodPressure'] * X['SkinThickness']
+
+#print(X.columns)
+
 # Divide the data into training and testing data
 x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y)
 
@@ -43,4 +57,3 @@ model.fit(x_train_scaled, y_train)
 # Compare accuracies for overfitting
 print(f"Model train accuracy: {model.score(x_train_scaled, y_train)}")
 print(f"Model test accuracy: {model.score(x_test_scaled, y_test)}")
-

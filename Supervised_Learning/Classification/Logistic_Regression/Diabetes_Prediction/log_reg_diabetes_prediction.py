@@ -47,7 +47,7 @@ x_test_scaled = scaler.transform(x_test)
 # ------------------------------
 
 # Build the model
-model = LogisticRegression(max_iter=10000)
+model = LogisticRegression(max_iter=10000, class_weight="balanced")
 
 # Cross validation
 scores = cross_val_score(model, x_train_scaled, y_train, cv=5, scoring="f1")

@@ -25,7 +25,7 @@ The target variable is:
 
 ---
 
-## 🛠️ Preprocessing Steps
+## Preprocessing Steps
 
 1. **Feature Engineering**: Several new features were created to explore potential interactions:
    - `BMI_Age`
@@ -45,7 +45,7 @@ The target variable is:
 
 ---
 
-## 🤖 Model
+## Model
 
 - **Model**: `LogisticRegression` from `scikit-learn`
 - **Cross-validation**: 5-fold cross-validation is used to evaluate the model’s performance using the **F1 score**, which balances precision and recall.
@@ -53,7 +53,7 @@ The target variable is:
 
 ---
 
-## 📊 Results
+## Results
 
 - The F1 score from cross-validation was approximately 63%.
 - The model's accuracy on the test set was around 78%.

@@ -4,6 +4,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 import tensorflow as tf
+from tensorflow.keras.callbacks import EarlyStopping
 
 # Read CSV
 df = pd.read_csv("./Datasets/diabetes.csv")
@@ -50,8 +51,17 @@ model = tf.keras.Sequential([
 # Compile the model
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy', 'recall'])
 
+# Early stopping to avoid overfitting
+early_stopping = EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
+
 # Fit the model with training data
-history = model.fit(x_train_scaled, y_train, epochs=100, batch_size=32, validation_data=(x_test_scaled, y_test))
+history = model.fit(
+    x_train_scaled, y_train, 
+    epochs=10, 
+    batch_size=32, 
+    validation_data=(x_test_scaled, y_test), 
+    callbacks=[early_stopping]
+)
 
 # Confusion matrix
 y_pred = model.predict(x_test_scaled)
@@ -77,4 +87,5 @@ disp.plot(cmap=plt.cm.Blues, colorbar=False)
 plt.title("Confusion Matrix")
 plt.show()
 
-model.save('Model/diabetes_model.h5')
+# Save model in 'Models' folder
+model.save('./Models/diabetes_prediction.h5')

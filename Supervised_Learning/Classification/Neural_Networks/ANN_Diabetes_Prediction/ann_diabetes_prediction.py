@@ -1,8 +1,10 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, classification_report
+
 import tensorflow as tf
 from tensorflow.keras.callbacks import EarlyStopping
 
@@ -39,12 +41,26 @@ x_test_scaled = scaler.transform(x_test)
 
 # Build the model
 model = tf.keras.Sequential([
-    tf.keras.layers.Dense(64, activation='relu', input_shape=(x_train.shape[1],)),
-    tf.keras.layers.Dropout(0.3),
+    tf.keras.Input(shape=(x_train.shape[1],)),
+
+    tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.Dropout(0.25),
+    
     tf.keras.layers.Dense(32, activation='relu'),
-    tf.keras.layers.Dropout(0.3),
+    tf.keras.layers.Dropout(0.25),
+    
     tf.keras.layers.Dense(32, activation='relu'),
-    tf.keras.layers.Dropout(0.3),
+    tf.keras.layers.Dropout(0.25),
+
+    tf.keras.layers.Dense(32, activation='relu'),
+    tf.keras.layers.Dropout(0.25),
+
+    tf.keras.layers.Dense(16, activation='relu'),
+    tf.keras.layers.Dropout(0.25),
+
+    tf.keras.layers.Dense(16, activation='relu'),
+    tf.keras.layers.Dropout(0.25),
+
     tf.keras.layers.Dense(1, activation='sigmoid')
 ])
 
@@ -52,12 +68,12 @@ model = tf.keras.Sequential([
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy', 'recall'])
 
 # Early stopping to avoid overfitting
-early_stopping = EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
+early_stopping = EarlyStopping(monitor='val_loss', patience=15, restore_best_weights=True)
 
 # Fit the model with training data
 history = model.fit(
     x_train_scaled, y_train, 
-    epochs=10, 
+    epochs=500, 
     batch_size=32, 
     validation_data=(x_test_scaled, y_test), 
     callbacks=[early_stopping]
@@ -69,12 +85,16 @@ y_pred = model.predict(x_test_scaled)
 # Convert probabilities to class predictions
 y_pred_classes = (y_pred > 0.5).astype("int32")
 
+# Print classification report
+print(classification_report(y_test, y_pred_classes))
+
 # Generate confusion matrix
 conf_matrix = confusion_matrix(y_test, y_pred_classes)
 
 # Plot train loss vs test loss
 plt.plot(history.history['loss'], label='Train Loss')
 plt.plot(history.history['val_loss'], label='Validation Loss')
+plt.grid(True, linestyle='--', alpha=0.7)
 plt.xlabel('Epochs')
 plt.ylabel('Loss')
 plt.legend()
@@ -88,4 +108,4 @@ plt.title("Confusion Matrix")
 plt.show()
 
 # Save model in 'Models' folder
-model.save('./Models/diabetes_prediction.h5')
+model.save('./Models/diabetes_prediction.keras')

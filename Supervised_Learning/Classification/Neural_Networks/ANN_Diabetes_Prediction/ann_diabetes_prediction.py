@@ -46,13 +46,10 @@ model = tf.keras.Sequential([
     tf.keras.layers.Dense(128, activation='relu'),
     tf.keras.layers.Dropout(0.25),
     
-    tf.keras.layers.Dense(32, activation='relu'),
-    tf.keras.layers.Dropout(0.25),
-    
-    tf.keras.layers.Dense(32, activation='relu'),
+    tf.keras.layers.Dense(16, activation='relu'),
     tf.keras.layers.Dropout(0.25),
 
-    tf.keras.layers.Dense(32, activation='relu'),
+    tf.keras.layers.Dense(16, activation='relu'),
     tf.keras.layers.Dropout(0.25),
 
     tf.keras.layers.Dense(16, activation='relu'),

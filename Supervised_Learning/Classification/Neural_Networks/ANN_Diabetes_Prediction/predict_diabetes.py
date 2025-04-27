@@ -53,6 +53,6 @@ prediction = model.predict(user_data_scaled)
 
 # Display the prediction
 if prediction > 0.5:
-    print("The model predicts: Diabetes (1)")
+    print("The model predicts: Diabetes")
 else:
-    print("The model predicts: No Diabetes (0)")
+    print("The model predicts: No Diabetes")

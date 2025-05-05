@@ -4,6 +4,9 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, classification_report
+from sklearn.preprocessing import StandardScaler
+
+from imblearn.over_sampling import SMOTE
 
 #------------- PRE-PROCESSING---------------
 # Read CSV
@@ -14,41 +17,39 @@ print(df.head())
 X = df.drop(["transaction_id", "label"], axis=1)
 y = df["label"]
 
-
 # One hot encoding
-X["travel"] = X["merchant_type"] == "travel"
-X["groceries"] = X["merchant_type"] == "groceries"
-X["electronics"] = X["merchant_type"] == "electronics"
-X["clothing"] = X["merchant_type"] == "clothing"
-X["others"] = X["merchant_type"] == "others"
-
-X["tablet"] = X["device_type"] == "tablet"
-X["desktop"] = X["device_type"] == "desktop"
-X["mobile"] = X["device_type"] == "mobile"
-
-X.drop(["merchant_type"], axis=1, inplace=True)
-X.drop(["device_type"], axis=1, inplace=True)
+X = pd.get_dummies(X, columns=["merchant_type", "device_type"])
 
 print(X.head())
 
-#------------- TRAINING ---------------------
 # Divide into train and test data
-x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y)
+x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y, random_state=42)
+
+# Scale the data
+scaler = StandardScaler()
+x_train_scaled = scaler.fit_transform(x_train)
+x_test_scaled = scaler.transform(x_test)
+
+# Create SMOTE
+smote = SMOTE(sampling_strategy=0.5, random_state=42)
+x_train_resampled, y_train_resampled = smote.fit_resample(x_train_scaled, y_train)
+
+#------------- TRAINING ---------------------
 
 # Create the model
-model = LogisticRegression(class_weight="balanced")
+model = LogisticRegression(random_state=42)
 
 # Fit the model with training data
-model.fit(x_train, y_train)
+model.fit(x_train_resampled, y_train_resampled)
 
 # Compare accuracies for overfitting
-print(f"Model train accuracy: {model.score(x_train, y_train)}")
-print(f"Model test accuracy: {model.score(x_test, y_test)}")
+print(f"Model train accuracy: {model.score(x_train_resampled, y_train_resampled)}")
+print(f"Model test accuracy: {model.score(x_test_scaled, y_test)}")
 
 
 #------------- RESULTS ---------------------
 # Confusion matrix
-y_pred = model.predict(x_test)
+y_pred = model.predict(x_test_scaled)
 
 # Print classification report
 print(classification_report(y_test, y_pred))

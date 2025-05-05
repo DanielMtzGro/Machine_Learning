@@ -34,10 +34,11 @@ x_test_scaled = scaler.transform(x_test)
 smote = SMOTE(sampling_strategy=0.5, random_state=42)
 x_train_resampled, y_train_resampled = smote.fit_resample(x_train_scaled, y_train)
 
+
 #------------- TRAINING ---------------------
 
 # Create the model
-model = LogisticRegression(random_state=42)
+model = LogisticRegression(random_state=42, class_weight={0: 1, 1: 10})
 
 # Fit the model with training data
 model.fit(x_train_resampled, y_train_resampled)
@@ -48,16 +49,18 @@ print(f"Model test accuracy: {model.score(x_test_scaled, y_test)}")
 
 
 #------------- RESULTS ---------------------
-# Confusion matrix
-y_pred = model.predict(x_test_scaled)
+# Predecir probabilidades de la clase 1
+y_pred_proba = model.predict_proba(x_test_scaled)[:, 1]  # Probabilidades de la clase 1
 
-# Print classification report
-print(classification_report(y_test, y_pred))
+# Ajustar el umbral
+threshold = 0.3  # Prueba con un umbral más bajo para capturar más fraudes
+y_pred_adjusted = (y_pred_proba > threshold).astype(int)
 
-# Plot confusion matrix
-conf_matrix = confusion_matrix(y_test, y_pred)
+# Mostrar el reporte de clasificación y la matriz de confusión
+print(classification_report(y_test, y_pred_adjusted))
 
+conf_matrix = confusion_matrix(y_test, y_pred_adjusted)
 disp = ConfusionMatrixDisplay(confusion_matrix=conf_matrix, display_labels=model.classes_)
 disp.plot(cmap=plt.cm.Blues, colorbar=False)
-plt.title("Confusion Matrix")
+plt.title("Confusion Matrix con umbral ajustado")
 plt.show()
